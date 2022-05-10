@@ -24,15 +24,18 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapFallback(async (context) =>
-{
-    var phpath = Path.Join(app.Environment.WebRootPath, context.Request.Path);
-    var name = Path.Combine(Path.GetDirectoryName(phpath)!, "index.html");
-    if (File.Exists(name))
-    {
-        context.Response.StatusCode = 200;
-        await context.Response.SendFileAsync(name);
-    }
-});
+// 使用VueRouterHistory中间件更加优雅
+app.UseVueRouterHistory();
+
+//app.MapFallback(async (context) =>
+//{
+//    var phpath = Path.Join(app.Environment.WebRootPath, context.Request.Path);
+//    var name = Path.Combine(Path.GetDirectoryName(phpath)!, "index.html");
+//    if (File.Exists(name))
+//    {
+//        context.Response.StatusCode = 200;
+//        await context.Response.SendFileAsync(name);
+//    }
+//});
 
 app.Run();
